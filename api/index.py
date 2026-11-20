@@ -27,7 +27,7 @@ class handler(BaseHTTPRequestHandler):
         action = params.get("action", ["ping"])[0]
 
         if action == "download":
-            # Send 2x 512KB = 1MB per request (keeps serverless response fast & safe)
+            # 1MB per request (2 x 512KB) keeps serverless latency & response size clean
             payload = DOWNLOAD_CHUNK * 2
             self._set_common_headers(content_type="application/octet-stream", status=200)
             self.send_header("Content-Length", str(len(payload)))
@@ -35,7 +35,6 @@ class handler(BaseHTTPRequestHandler):
             self.wfile.write(payload)
             return
 
-        # Default: ping endpoint
         body = json.dumps({"status": "pong", "ts": time.time()}).encode("utf-8")
         self._set_common_headers(content_type="application/json", status=200)
         self.send_header("Content-Length", str(len(body)))
@@ -59,4 +58,3 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Content-Length", str(len(body)))
         self.end_headers()
         self.wfile.write(body)
-      
