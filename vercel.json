@@ -1,12 +1,12 @@
 {
-  "functions": {
-    "api/index.php": {
-      "runtime": "vercel-php@0.7.1"
+  "cleanUrls": true,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-store, no-cache, must-revalidate" },
+        { "key": "X-Content-Type-Options", "value": "nosniff" }
+      ]
     }
-  },
-  "rewrites": [
-    { "source": "/api/ping", "destination": "/api/index.php?action=ping" },
-    { "source": "/api/download", "destination": "/api/index.php?action=download" },
-    { "source": "/api/upload", "destination": "/api/index.php?action=upload" }
   ]
 }
